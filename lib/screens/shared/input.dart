@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomInput extends StatelessWidget {
-  const CustomInput({Key? key}) : super(key: key);
-
+  const CustomInput({Key? key, this.hintText}) : super(key: key);
+  final String? hintText;
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -11,6 +11,7 @@ class CustomInput extends StatelessWidget {
       width: deviceWidth * 0.7,
       child: TextField(
         decoration: InputDecoration(
+          hintText: hintText,
           filled: true,
           fillColor: Colors.blue.shade100,
           border: OutlineInputBorder(

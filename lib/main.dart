@@ -1,5 +1,6 @@
 import 'package:convert_me/config.dart';
 import 'package:convert_me/screens/home/home_screen.dart';
+import 'package:convert_me/screens/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: const SignupScreen(),
     );
   }
 }
