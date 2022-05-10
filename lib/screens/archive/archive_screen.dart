@@ -2,7 +2,7 @@ import 'package:convert_me/screens/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../shared/input.dart';
+import '../shared/custom_app_bar.dart';
 
 class ArchiveSceren extends StatelessWidget {
   const ArchiveSceren({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class ArchiveSceren extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(),
         body: ListView.builder(
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {

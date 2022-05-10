@@ -1,6 +1,7 @@
 import 'package:convert_me/screens/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 
+import '../shared/custom_app_bar.dart';
 import '../shared/input.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,6 +13,8 @@ class HomeScreen extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(),
+        extendBodyBehindAppBar: true,
         body: SingleChildScrollView(
           child: Column(
             children: [
