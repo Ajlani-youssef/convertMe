@@ -17,7 +17,7 @@ class Conversion {
   String? id;
   late String from;
   late String to;
-  late String date;
+  late DateTime date;
   late double amount;
   late double result;
 
