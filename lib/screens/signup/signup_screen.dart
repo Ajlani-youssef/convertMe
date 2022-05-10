@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../shared/input.dart';
 
 class SignupScreen extends StatefulWidget {
+  static String routeName = '/signup';
   const SignupScreen({Key? key}) : super(key: key);
 
   @override

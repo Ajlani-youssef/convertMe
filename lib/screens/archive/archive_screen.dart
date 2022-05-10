@@ -4,8 +4,10 @@ import 'package:intl/intl.dart';
 
 import '../shared/custom_app_bar.dart';
 
-class ArchiveSceren extends StatelessWidget {
-  const ArchiveSceren({Key? key}) : super(key: key);
+class ArchiveScreen extends StatelessWidget {
+  const ArchiveScreen({Key? key}) : super(key: key);
+  static String routeName = '/archive';
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();

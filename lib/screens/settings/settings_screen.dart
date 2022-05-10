@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../shared/input.dart';
 
 class SettignsScreen extends StatefulWidget {
+  static String routeName = '/settings';
   const SettignsScreen({Key? key}) : super(key: key);
 
   @override
@@ -24,97 +25,110 @@ class _SettignsScreenState extends State<SettignsScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Center(
+        body: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
           child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(deviceWidth * 0.08)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
-                  offset: const Offset(0.0, 1.0), //(x,y)
-                  blurRadius: 10.0,
-                ),
-              ],
-            ),
-            height: deviceHeight * 0.6,
-            width: deviceWidth * 0.8,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: deviceHeight * 0.1,
-                ),
-                CustomInput(
-                  hintText: "User name",
-                ),
-                SizedBox(
-                  height: deviceHeight * 0.1,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DropdownButton(
-                      // Initial Value
-                      value: dropdownvalue,
+            color: Colors.black.withOpacity(0.7),
+            width: deviceWidth,
+            height: deviceHeight,
+            child: Center(
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(deviceWidth * 0.08)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.4),
+                        offset: const Offset(0.0, 1.0), //(x,y)
+                        blurRadius: 10.0,
+                      ),
+                    ],
+                  ),
+                  height: deviceHeight * 0.6,
+                  width: deviceWidth * 0.8,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: deviceHeight * 0.1,
+                      ),
+                      CustomInput(
+                        hintText: "User name",
+                      ),
+                      SizedBox(
+                        height: deviceHeight * 0.1,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DropdownButton(
+                            // Initial Value
+                            value: dropdownvalue,
 
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                            // Down Arrow Icon
+                            icon: const Icon(Icons.keyboard_arrow_down),
 
-                      // Array list of items
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      width: deviceWidth * 0.15,
-                    ),
-                    Icon(Icons.currency_exchange),
-                    SizedBox(
-                      width: deviceWidth * 0.15,
-                    ),
-                    DropdownButton(
-                      // Initial Value
-                      value: dropdownvalue,
+                            // Array list of items
+                            items: items.map((String items) {
+                              return DropdownMenuItem(
+                                value: items,
+                                child: Text(items),
+                              );
+                            }).toList(),
+                            // After selecting the desired option,it will
+                            // change button value to selected value
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownvalue = newValue!;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            width: deviceWidth * 0.15,
+                          ),
+                          Icon(Icons.currency_exchange),
+                          SizedBox(
+                            width: deviceWidth * 0.15,
+                          ),
+                          DropdownButton(
+                            // Initial Value
+                            value: dropdownvalue,
 
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                            // Down Arrow Icon
+                            icon: const Icon(Icons.keyboard_arrow_down),
 
-                      // Array list of items
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                      },
-                    ),
-                  ],
+                            // Array list of items
+                            items: items.map((String items) {
+                              return DropdownMenuItem(
+                                value: items,
+                                child: Text(items),
+                              );
+                            }).toList(),
+                            // After selecting the desired option,it will
+                            // change button value to selected value
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownvalue = newValue!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: deviceHeight * 0.13,
+                      ),
+                      CustomButton(
+                        text: "Confirm",
+                        icon: Icons.check,
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: deviceHeight * 0.13,
-                ),
-                CustomButton(
-                  text: "Confirm",
-                  icon: Icons.check,
-                  color: Colors.green,
-                ),
-              ],
+              ),
             ),
           ),
         ),

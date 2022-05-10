@@ -3,10 +3,29 @@ import 'package:convert_me/screens/archive/archive_screen.dart';
 import 'package:convert_me/screens/home/home_screen.dart';
 import 'package:convert_me/screens/settings/settings_screen.dart';
 import 'package:convert_me/screens/signup/signup_screen.dart';
+import 'package:convert_me/screens/splashScreen/splash_screen.dart';
+import 'package:convert_me/services/auth_service.dart';
+import 'package:convert_me/viewmodels/home_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-void main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupServices();
   runApp(const MyApp());
+}
+
+Future<void> setupServices() async {
+  final getIt = GetIt.instance;
+  getIt.registerSingletonAsync<AuthService>(
+    () async {
+      final authService = AuthService();
+      await authService.init();
+      return authService;
+    },
+  );
+
+  await getIt.allReady();
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +40,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ArchiveSceren(),
+      routes: {
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        ArchiveScreen.routeName: (context) => const ArchiveScreen(),
+        SettignsScreen.routeName: (context) => const SettignsScreen(),
+        SignupScreen.routeName: (context) => const SignupScreen(),
+      },
+      home: const SplashScreen(),
     );
   }
 }
