@@ -69,12 +69,12 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future saveConversion() async {
-    conversions.add(
+    dummyConversions.add(
       Conversion(
         from: from,
         to: to,
         date: DateTime.now(),
-        ammount: ammount,
+        ammount: double.parse(input.text),
         result: double.parse(output.text),
       ),
     );
