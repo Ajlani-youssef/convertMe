@@ -1,23 +1,16 @@
 import 'package:convert_me/screens/shared/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/currency.dart';
+import '../../viewmodels/home_viewmodel.dart';
+import '../../viewmodels/user_viewmodel.dart';
 import '../shared/input.dart';
 
-class SettignsScreen extends StatefulWidget {
+class SettignsScreen extends StatelessWidget {
   static String routeName = '/settings';
   const SettignsScreen({Key? key}) : super(key: key);
 
-  @override
-  State<SettignsScreen> createState() => _SettignsScreenState();
-}
-
-class _SettignsScreenState extends State<SettignsScreen> {
-  String dropdownvalue = 'USD';
-
-  var items = [
-    'USD',
-    'TND',
-  ];
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -50,83 +43,92 @@ class _SettignsScreenState extends State<SettignsScreen> {
                   ),
                   height: deviceHeight * 0.6,
                   width: deviceWidth * 0.8,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: deviceHeight * 0.1,
-                      ),
-                      CustomInput(
-                        hintText: "User name",
-                      ),
-                      SizedBox(
-                        height: deviceHeight * 0.1,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child: Consumer<UserViewModel>(
+                    builder: (context, userViewModel, child) {
+                      return Column(
                         children: [
-                          DropdownButton(
-                            // Initial Value
-                            value: dropdownvalue,
-
-                            // Down Arrow Icon
-                            icon: const Icon(Icons.keyboard_arrow_down),
-
-                            // Array list of items
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Text(items),
-                              );
-                            }).toList(),
-                            // After selecting the desired option,it will
-                            // change button value to selected value
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownvalue = newValue!;
-                              });
-                            },
+                          SizedBox(
+                            height: deviceHeight * 0.1,
+                          ),
+                          CustomInput(
+                            controller: userViewModel.usernameUpdate,
+                            hintText: "User name",
                           ),
                           SizedBox(
-                            width: deviceWidth * 0.15,
+                            height: deviceHeight * 0.1,
                           ),
-                          Icon(Icons.currency_exchange),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DropdownButton(
+                                // Initial Value
+                                value: userViewModel.fromUpdate,
+
+                                // Down Arrow Icon
+                                icon: const Icon(Icons.keyboard_arrow_down),
+
+                                // Array list of items
+                                items: userViewModel.fromCurrencies.map((Currency items) {
+                                  return DropdownMenuItem(
+                                    value: items.code,
+                                    child: Text(items.code),
+                                  );
+                                }).toList(),
+                                // After selecting the desired option,it will
+                                // change button value to selected value
+                                onChanged: (String? newValue) {
+                                  if (newValue != null) {
+                                    userViewModel.setFromUpdate(newValue);
+                                  }
+                                },
+                              ),
+                              SizedBox(
+                                width: deviceWidth * 0.15,
+                              ),
+                              const Icon(Icons.currency_exchange),
+                              SizedBox(
+                                width: deviceWidth * 0.15,
+                              ),
+                              DropdownButton(
+                                // Initial Value
+                                value: userViewModel.toUpdate,
+
+                                // Down Arrow Icon
+                                icon: const Icon(Icons.keyboard_arrow_down),
+
+                                // Array list of items
+                                items: userViewModel.toCurrencies.map((Currency items) {
+                                  return DropdownMenuItem(
+                                    value: items.code,
+                                    child: Text(items.code),
+                                  );
+                                }).toList(),
+                                // After selecting the desired option,it will
+                                // change button value to selected value
+                                onChanged: (String? newValue) {
+                                  if (newValue != null) {
+                                    userViewModel.setToUpdate(newValue);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
                           SizedBox(
-                            width: deviceWidth * 0.15,
+                            height: deviceHeight * 0.13,
                           ),
-                          DropdownButton(
-                            // Initial Value
-                            value: dropdownvalue,
-
-                            // Down Arrow Icon
-                            icon: const Icon(Icons.keyboard_arrow_down),
-
-                            // Array list of items
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Text(items),
-                              );
-                            }).toList(),
-                            // After selecting the desired option,it will
-                            // change button value to selected value
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownvalue = newValue!;
-                              });
+                          CustomButton(
+                            active: userViewModel.usernameUpdate.text.isNotEmpty,
+                            callback: () {
+                              userViewModel.updateUser();
+                              Provider.of<HomeViewModel>(context, listen: false).updateUser();
                             },
+                            text: "Confirm",
+                            icon: Icons.check,
+                            color: Colors.green,
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: deviceHeight * 0.13,
-                      ),
-                      CustomButton(
-                        callback: (){},
-                        text: "Confirm",
-                        icon: Icons.check,
-                        color: Colors.green,
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ),

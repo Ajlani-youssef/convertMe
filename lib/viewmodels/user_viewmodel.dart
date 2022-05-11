@@ -4,6 +4,7 @@ import 'package:convert_me/services/forex_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../config.dart';
 import '../models/currency.dart';
 
 class UserViewModel extends ChangeNotifier {
@@ -16,6 +17,11 @@ class UserViewModel extends ChangeNotifier {
   bool signedIn = false;
 
   TextEditingController usernameSignup = TextEditingController();
+
+  TextEditingController usernameUpdate = TextEditingController();
+
+  late String fromUpdate;
+  late String toUpdate;
 
   String? fromSignup;
   String? toSignup;
@@ -40,6 +46,9 @@ class UserViewModel extends ChangeNotifier {
   void setUser(User? user) {
     _user = user;
     if (user != null) {
+      fromUpdate = user.from;
+      toUpdate = user.to;
+      usernameUpdate.text = user.username;
       signedIn = true;
     }
     notifyListeners();
@@ -58,10 +67,21 @@ class UserViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setFromUpdate(String code) {
+    fromUpdate = code;
+    toCurrencies = _currencies.where((currency) => currency.code != code).toList();
+    notifyListeners();
+  }
+
   setToSignUp(String code) {
     toSignup = code;
     fromCurrencies = _currencies.where((currency) => currency.code != code).toList();
+    notifyListeners();
+  }
 
+  setToUpdate(String code) {
+    toUpdate = code;
+    fromCurrencies = _currencies.where((currency) => currency.code != code).toList();
     notifyListeners();
   }
 
@@ -70,6 +90,9 @@ class UserViewModel extends ChangeNotifier {
       return false;
     }
     bool signedUp = await _authService.signup(usernameSignup.text, toSignup!, fromSignup!);
+    fromUpdate = fromSignup!;
+    toUpdate = toSignup!;
+    usernameUpdate.text = usernameSignup.text;
     if (signedUp) {
       _user = user;
       signedIn = true;
@@ -77,8 +100,15 @@ class UserViewModel extends ChangeNotifier {
     return signedUp;
   }
 
-  Future<bool> updateUser(User user) async {
-    // TODO: update user information in shared preferences
+  Future<bool> updateUser() async {
+    if (usernameUpdate.text.isNotEmpty) {
+      user!.from = fromUpdate;
+      user!.to = toUpdate;
+      user!.username = usernameUpdate.text;
+      _authService.update(user!);
+    }
+    notifyListeners();
+    Navigator.of(Config.navigatorKey.currentContext!).pop();
     return true;
   }
 

@@ -27,4 +27,12 @@ class AuthService {
         await sharedPreferencesInstance.setString("to", to);
     return loggedIn;
   }
+
+  Future<bool> update(User user) async {
+    bool updated = await sharedPreferencesInstance.setString("username", user.username) &&
+        await sharedPreferencesInstance.setString("from", user.from) &&
+        await sharedPreferencesInstance.setString("to", user.to);
+    user = user;
+    return updated;
+  }
 }

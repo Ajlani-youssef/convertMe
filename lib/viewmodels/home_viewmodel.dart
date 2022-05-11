@@ -37,6 +37,12 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateUser() {
+    from = _authService.user!.from;
+    to = _authService.user!.to;
+    notifyListeners();
+  }
+
   Future getAmmount() async {
     ammount = (await _forexApiService.getCurrencyValue(from, to))!;
     notifyListeners();
