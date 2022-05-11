@@ -5,9 +5,11 @@ import 'package:convert_me/screens/settings/settings_screen.dart';
 import 'package:convert_me/screens/signup/signup_screen.dart';
 import 'package:convert_me/screens/splashScreen/splash_screen.dart';
 import 'package:convert_me/services/auth_service.dart';
-import 'package:convert_me/viewmodels/home_viewmodel.dart';
+import 'package:convert_me/services/forex_api_service.dart';
+import 'package:convert_me/viewmodels/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,7 @@ Future<void> setupServices() async {
       return authService;
     },
   );
+  getIt.registerSingleton<ForexApiService>(ForexApiService());
 
   await getIt.allReady();
 }
@@ -34,19 +37,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Convert Me',
-      navigatorKey: Config.navigatorKey,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserViewModel(),
+          lazy: false,
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Convert Me',
+        navigatorKey: Config.navigatorKey,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          HomeScreen.routeName: (context) => const HomeScreen(),
+          ArchiveScreen.routeName: (context) => const ArchiveScreen(),
+          SettignsScreen.routeName: (context) => const SettignsScreen(),
+          SignupScreen.routeName: (context) => const SignupScreen(),
+        },
+        home: const SplashScreen(),
       ),
-      routes: {
-        HomeScreen.routeName: (context) => const HomeScreen(),
-        ArchiveScreen.routeName: (context) => const ArchiveScreen(),
-        SettignsScreen.routeName: (context) => const SettignsScreen(),
-        SignupScreen.routeName: (context) => const SignupScreen(),
-      },
-      home: const SplashScreen(),
     );
   }
 }

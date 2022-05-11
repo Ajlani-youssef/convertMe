@@ -48,6 +48,7 @@ class HomeScreen extends StatelessWidget {
                 height: deviceHeight * 0.22,
               ),
               CustomButton(
+                callback: (){},
                 text: "Save",
                 icon: Icons.save,
                 color: Colors.green,
@@ -56,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                 height: deviceHeight * 0.02,
               ),
               CustomButton(
+                callback: (){},
                 text: "Discard",
                 icon: Icons.delete,
                 color: Colors.red,

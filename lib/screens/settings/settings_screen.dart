@@ -121,6 +121,7 @@ class _SettignsScreenState extends State<SettignsScreen> {
                         height: deviceHeight * 0.13,
                       ),
                       CustomButton(
+                        callback: (){},
                         text: "Confirm",
                         icon: Icons.check,
                         color: Colors.green,

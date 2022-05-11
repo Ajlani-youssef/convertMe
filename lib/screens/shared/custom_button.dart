@@ -6,17 +6,21 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.icon,
     required this.color,
+    this.active = true,
+    required this.callback,
   }) : super(key: key);
   final String text;
   final IconData icon;
   final Color color;
+  final bool active;
+  final callback;
 
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: active ? callback : null,
       icon: Icon(icon),
       label: Text(text),
       style: ElevatedButton.styleFrom(
