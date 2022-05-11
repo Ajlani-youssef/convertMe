@@ -15,7 +15,7 @@ class ArchiveScreen extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: customAppBar(ArchiveScreen.routeName),
         body: ListView.builder(
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {

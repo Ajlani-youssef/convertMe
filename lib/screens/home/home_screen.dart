@@ -1,5 +1,7 @@
 import 'package:convert_me/screens/shared/custom_button.dart';
+import 'package:convert_me/viewmodels/home_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../shared/custom_app_bar.dart';
 import '../shared/input.dart';
@@ -14,57 +16,73 @@ class HomeScreen extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: customAppBar(HomeScreen.routeName),
         extendBodyBehindAppBar: true,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: deviceHeight * 0.15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("USD"),
-                  SizedBox(
-                    width: deviceWidth * 0.15,
-                  ),
-                  Icon(Icons.currency_exchange),
-                  SizedBox(
-                    width: deviceWidth * 0.15,
-                  ),
-                  Text("TND"),
-                ],
-              ),
-              SizedBox(
-                height: deviceHeight * 0.1,
-              ),
-              CustomInput(),
-              SizedBox(
-                height: deviceHeight * 0.1,
-              ),
-              CustomInput(),
-              SizedBox(
-                height: deviceHeight * 0.22,
-              ),
-              CustomButton(
-                callback: (){},
-                text: "Save",
-                icon: Icons.save,
-                color: Colors.green,
-              ),
-              SizedBox(
-                height: deviceHeight * 0.02,
-              ),
-              CustomButton(
-                callback: (){},
-                text: "Discard",
-                icon: Icons.delete,
-                color: Colors.red,
-              ),
-            ],
-          ),
-        ),
+        body: Consumer<HomeViewModel>(builder: (context, homeViewModel, child) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: deviceHeight * 0.15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(homeViewModel.from),
+                    SizedBox(
+                      width: deviceWidth * 0.15,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        homeViewModel.swipe();
+                      },
+                      child: const Icon(Icons.currency_exchange),
+                    ),
+                    SizedBox(
+                      width: deviceWidth * 0.15,
+                    ),
+                    Text(homeViewModel.to),
+                  ],
+                ),
+                SizedBox(
+                  height: deviceHeight * 0.1,
+                ),
+                CustomInput(
+                  controller: homeViewModel.input,
+                  hintText: "input",
+                  type: TextInputType.number,
+                ),
+                SizedBox(
+                  height: deviceHeight * 0.1,
+                ),
+                CustomInput(
+                  controller: homeViewModel.output,
+                  hintText: "output",
+                  readOnly: true,
+                ),
+                SizedBox(
+                  height: deviceHeight * 0.22,
+                ),
+                CustomButton(
+                  callback: homeViewModel.saveConversion,
+                  text: "Save",
+                  icon: Icons.save,
+                  color: Colors.green,
+                  active: homeViewModel.input.text.isNotEmpty,
+                ),
+                SizedBox(
+                  height: deviceHeight * 0.02,
+                ),
+                CustomButton(
+                  callback: homeViewModel.discardConversion,
+                  text: "Discard",
+                  icon: Icons.delete,
+                  color: Colors.red,
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

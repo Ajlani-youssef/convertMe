@@ -31,6 +31,12 @@ class UserViewModel extends ChangeNotifier {
     getCurrencies();
   }
 
+  @override
+  void dispose() {
+    usernameSignup.dispose();
+    super.dispose();
+  }
+
   void setUser(User? user) {
     _user = user;
     if (user != null) {

@@ -6,6 +6,7 @@ import 'package:convert_me/screens/signup/signup_screen.dart';
 import 'package:convert_me/screens/splashScreen/splash_screen.dart';
 import 'package:convert_me/services/auth_service.dart';
 import 'package:convert_me/services/forex_api_service.dart';
+import 'package:convert_me/viewmodels/home_viewmodel.dart';
 import 'package:convert_me/viewmodels/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserViewModel(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeViewModel(),
           lazy: false,
         ),
       ],

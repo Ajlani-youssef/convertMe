@@ -5,9 +5,13 @@ class CustomInput extends StatelessWidget {
     Key? key,
     this.hintText,
     this.controller,
+    this.readOnly = false,
+    this.type = TextInputType.text,
   }) : super(key: key);
   final String? hintText;
   final TextEditingController? controller;
+  final bool readOnly;
+  final TextInputType? type;
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -15,6 +19,8 @@ class CustomInput extends StatelessWidget {
     return SizedBox(
       width: deviceWidth * 0.7,
       child: TextField(
+        keyboardType: type,
+        readOnly: readOnly,
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,

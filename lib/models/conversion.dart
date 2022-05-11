@@ -10,7 +10,7 @@ class Conversion {
     required this.from,
     required this.to,
     required this.date,
-    required this.amount,
+    required this.ammount,
     required this.result,
   });
 
@@ -18,7 +18,7 @@ class Conversion {
   late String from;
   late String to;
   late DateTime date;
-  late double amount;
+  late double ammount;
   late double result;
 
   factory Conversion.fromJson(Map<String, dynamic> json) => Conversion(
@@ -26,7 +26,7 @@ class Conversion {
         from: json["from"],
         to: json["to"],
         date: json["date"],
-        amount: json["amount"].toDouble(),
+        ammount: json["amount"].toDouble(),
         result: json["result"].toDouble(),
       );
 
@@ -35,7 +35,7 @@ class Conversion {
         "from": from,
         "to": to,
         "date": date,
-        "amount": amount,
+        "amount": ammount,
         "result": result,
       };
 }
