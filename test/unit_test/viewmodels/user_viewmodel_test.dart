@@ -1,4 +1,3 @@
-import 'package:convert_me/config.dart';
 import 'package:convert_me/models/currency.dart';
 import 'package:convert_me/models/user.dart';
 import 'package:convert_me/services/auth_service.dart';
@@ -7,7 +6,6 @@ import 'package:convert_me/viewmodels/user_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/test.dart';
 
 import '../data.dart';
