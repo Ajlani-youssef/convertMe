@@ -89,7 +89,7 @@ class UserViewModel extends ChangeNotifier {
     if (!activeSignUp()) {
       return false;
     }
-    bool signedUp = await _authService.signup(usernameSignup.text, toSignup!, fromSignup!);
+    bool signedUp = await _authService.signup(usernameSignup.text, fromSignup!, toSignup!);
     fromUpdate = fromSignup!;
     toUpdate = toSignup!;
     usernameUpdate.text = usernameSignup.text;
