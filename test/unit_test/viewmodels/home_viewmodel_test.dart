@@ -1,3 +1,4 @@
+import 'package:convert_me/data.dart';
 import 'package:convert_me/models/currency.dart';
 import 'package:convert_me/models/user.dart';
 import 'package:convert_me/services/auth_service.dart';
@@ -8,8 +9,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../data.dart';
-import 'user_viewmodel_test.mocks.dart';
+import 'home_viewmodel_test.mocks.dart';
 
 @GenerateMocks([
   AuthService,
@@ -18,7 +18,13 @@ import 'user_viewmodel_test.mocks.dart';
 void main() {
   late HomeViewModel homeViewModel;
   User? currentUser;
+  double value = 3.01;
   setUpAll(() async {
+    currentUser = User(
+      username: "youssef",
+      from: "EUR",
+      to: "TND",
+    );
     final authService = MockAuthService();
     final forexApiService = MockForexApiService();
 
@@ -28,28 +34,8 @@ void main() {
       return currentUser;
     });
 
-    when(authService.signup(any, any, any)).thenAnswer((realInvocation) async {
-      currentUser = User(
-        username: realInvocation.positionalArguments[0].toString(),
-        from: realInvocation.positionalArguments[1].toString(),
-        to: realInvocation.positionalArguments[2].toString(),
-      );
-      return true;
-    });
-
-    when(authService.update(any)).thenAnswer((realInvocation) async {
-      currentUser = realInvocation.positionalArguments[0];
-      return true;
-    });
-
-    when(forexApiService.getCurrencies()).thenAnswer((realInvocation) async {
-      List<Currency> currencies = [];
-
-      for (String code in dummyCurrencies.keys) {
-        currencies.add(Currency(code: code, name: dummyCurrencies[code]!));
-      }
-
-      return currencies;
+    when(forexApiService.getCurrencyValue(any, any)).thenAnswer((realInvocation) async {
+      return value;
     });
 
     final getIt = GetIt.instance;
@@ -65,78 +51,74 @@ void main() {
 
     homeViewModel = HomeViewModel();
   });
-  group('Testing User View Model Provider', () {
-    test('setUser', () {
-      User user = User(username: "youssef", from: "AFN", to: "TRY");
-      userViewModel.setUser(user);
-      expect(userViewModel.fromUpdate, user.from);
-      expect(userViewModel.toUpdate, user.to);
-      expect(userViewModel.usernameUpdate.text, user.username);
-    });
-    test('Change "from" Value from sign up page', () {
-      String from = "AED";
-      userViewModel.setFromSignUp(from);
-      expect(userViewModel.fromSignup, from);
-      expect(userViewModel.toCurrencies.any((element) => element.code == from), false);
-    });
-    test('Change "from" Value from update page', () {
-      String from = "ALL";
-      userViewModel.setFromUpdate(from);
-      expect(userViewModel.fromUpdate, from);
-      expect(userViewModel.toCurrencies.any((element) => element.code == from), false);
+  group('Testing Home View Model', () {
+    test('init', () {
+      homeViewModel.init();
+      expect(homeViewModel.from, "EUR");
+      expect(homeViewModel.to, "TND");
+      expect(homeViewModel.input.hasListeners, true);
     });
 
-    test('Change "to" Value from sign up page', () {
-      String to = "AUD";
-      userViewModel.setToSignUp(to);
-      expect(userViewModel.toSignup, to);
-      expect(userViewModel.fromCurrencies.any((element) => element.code == to), false);
+    test('update User', () {
+      currentUser = User(
+        username: "youssef",
+        from: "TND",
+        to: "EUR",
+      );
+      homeViewModel.updateUser();
+      expect(homeViewModel.to, "EUR");
+      expect(homeViewModel.from, "TND");
     });
 
-    test('Change "to" Value from update page', () {
-      String to = "AMD";
-      userViewModel.setToUpdate(to);
-      expect(userViewModel.toUpdate, to);
-      expect(userViewModel.fromCurrencies.any((element) => element.code == to), false);
+    test('get Ammount', () {
+      homeViewModel.getAmmount();
+      expect(homeViewModel.ammount, value);
     });
 
-    test('Sign up with empty user name', () async {
-      userViewModel.usernameSignup.text = "";
-      bool signup = await userViewModel.signUp();
-      expect(signup, false);
+    test('Convert empty input', () {
+      homeViewModel.input.text = "";
+      homeViewModel.convert();
+      expect(homeViewModel.output.text, "");
     });
 
-    test('Sign up', () async {
-      userViewModel.usernameSignup.text = "youssef";
-      bool signup = await userViewModel.signUp();
-
-      expect(currentUser!.from, "AED");
-      expect(currentUser!.to, "AUD");
-      expect(currentUser!.username, "youssef");
-      expect(signup, true);
+    test('Convert', () {
+      double input = 2.5;
+      homeViewModel.input.text = input.toString();
+      double expected = 2.5 * value;
+      homeViewModel.convert();
+      expect(homeViewModel.output.text, expected.toString());
     });
 
-    test('update user with emty user name', () async {
-      userViewModel.usernameUpdate.text = "";
-      userViewModel.toUpdate = "TND";
-      userViewModel.fromUpdate = "USD";
-
-      await userViewModel.updateUser();
-
-      expect(currentUser!.from, "AED");
-      expect(currentUser!.to, "AUD");
-      expect(currentUser!.username, "youssef");
+    test('Swipe', () {
+      double input = 2.5;
+      homeViewModel.input.text = input.toString();
+      double expected = 2.5 * value;
+      homeViewModel.swipe();
+      expect(homeViewModel.output.text, input.toString());
+      expect(homeViewModel.input.text, expected.toString());
+      expect(homeViewModel.ammount, 1 / value);
     });
 
-    test('Update user', () async {
-      userViewModel.usernameUpdate.text = "youssef 22";
-      userViewModel.toUpdate = "TND";
-      userViewModel.fromUpdate = "USD";
-      await userViewModel.updateUser();
+    test('Discard Conversion', () {
+      double input = 2.5;
+      homeViewModel.input.text = input.toString();
+      homeViewModel.discardConversion();
+      expect(homeViewModel.output.text, "");
+      expect(homeViewModel.input.text, "");
+    });
 
-      expect(currentUser!.from, "USD");
-      expect(currentUser!.to, "TND");
-      expect(currentUser!.username, "youssef 22");
+    test('save conversion', () {
+      double input = 2.5;
+      int length = dummyConversions.length;
+      homeViewModel.input.text = input.toString();
+      homeViewModel.saveConversion();
+      expect(homeViewModel.output.text, "");
+      expect(homeViewModel.output.text, "");
+      expect(dummyConversions.length, length + 1);
+      expect(dummyConversions.last.ammount, input);
+      expect(dummyConversions.last.result, input * (1 / value));
+      expect(dummyConversions.last.from, "EUR");
+      expect(dummyConversions.last.to, "TND");
     });
   });
 }

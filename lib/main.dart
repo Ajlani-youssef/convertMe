@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => HomeViewModel(),
-          lazy: false,
+          lazy: true,
         ),
         ChangeNotifierProvider(
           create: (context) => ArchiveViewModel(),

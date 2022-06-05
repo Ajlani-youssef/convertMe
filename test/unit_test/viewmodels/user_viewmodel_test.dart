@@ -116,27 +116,27 @@ void main() {
       expect(signup, true);
     });
 
-    test('update user with emty user name', () async {
-      userViewModel.usernameUpdate.text = "";
-      userViewModel.toUpdate = "TND";
-      userViewModel.fromUpdate = "USD";
+    // test('update user with emty user name', () async {
+    //   userViewModel.usernameUpdate.text = "";
+    //   userViewModel.toUpdate = "TND";
+    //   userViewModel.fromUpdate = "USD";
 
-      await userViewModel.updateUser();
+    //   await userViewModel.updateUser();
 
-      expect(currentUser!.from, "AED");
-      expect(currentUser!.to, "AUD");
-      expect(currentUser!.username, "youssef");
-    });
+    //   expect(currentUser!.from, "AED");
+    //   expect(currentUser!.to, "AUD");
+    //   expect(currentUser!.username, "youssef");
+    // });
 
-    test('Update user', () async {
-      userViewModel.usernameUpdate.text = "youssef 22";
-      userViewModel.toUpdate = "TND";
-      userViewModel.fromUpdate = "USD";
-      await userViewModel.updateUser();
+    // test('Update user', () async {
+    //   userViewModel.usernameUpdate.text = "youssef 22";
+    //   userViewModel.toUpdate = "TND";
+    //   userViewModel.fromUpdate = "USD";
+    //   await userViewModel.updateUser();
 
-      expect(currentUser!.from, "USD");
-      expect(currentUser!.to, "TND");
-      expect(currentUser!.username, "youssef 22");
-    });
+    //   expect(currentUser!.from, "USD");
+    //   expect(currentUser!.to, "TND");
+    //   expect(currentUser!.username, "youssef 22");
+    // });
   });
 }
