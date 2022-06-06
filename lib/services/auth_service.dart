@@ -22,6 +22,7 @@ class AuthService {
   }
 
   Future<bool> signup(String username, String from, String to) async {
+    user = User(username: username, from: from, to: to);
     loggedIn = await sharedPreferencesInstance.setString("username", username) &&
         await sharedPreferencesInstance.setString("from", from) &&
         await sharedPreferencesInstance.setString("to", to);

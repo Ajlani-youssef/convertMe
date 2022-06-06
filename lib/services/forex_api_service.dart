@@ -8,7 +8,7 @@ import '../models/currency.dart';
 class ForexApiService {
   Uri getUri(String route, {String? queryString}) {
     return Uri.parse(
-        'https://api.fastforex.io/$route?${queryString != null ? "$queryString&" : ""}api_key=aab3d1717c-c75dd2176f-rbo4fn');
+        'https://api.fastforex.io/$route?${queryString != null ? "$queryString&" : ""}api_key=d27116f420-910498c499-rd10k2');
   }
 
   Future<List<Currency>> getCurrencies() async {

@@ -49,6 +49,7 @@ class SignupScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DropdownButton(
+                        key: const Key("dropDown1"),
                         // Initial Value
                         value: userViewModel.fromSignup,
 
@@ -78,6 +79,8 @@ class SignupScreen extends StatelessWidget {
                         width: deviceWidth * 0.15,
                       ),
                       DropdownButton(
+                        key: const Key("dropDown2"),
+
                         // Initial Value
                         value: userViewModel.toSignup,
 
