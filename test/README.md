@@ -15,16 +15,6 @@ I wrote 15 test cases for every function in the viewmodels
 I used Mockito to mock all the services
 
 
-### unit Testing
-
-to run the test use the following command in the root of the project:
-```
-flutter test
-```
-I wrote 15 test cases for every function in the viewmodels
-
-I used Mockito to mock all the services
-
 ### E2E Testing
 
 to run the test use the following command in the root of the project:
