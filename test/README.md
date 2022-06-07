@@ -1,7 +1,7 @@
 ## Software Testing
 - In each folder you will find one level of testing with its Readme file:
     1. Unit testing : test/unit_test
-    3. E2E testing : integration_test (integration_test flutter package is user for e2e test)
+    3. E2E testing : integration_test (integration_test flutter package is used for e2e test)
 
 
 ### unit Testing
